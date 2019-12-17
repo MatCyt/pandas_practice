@@ -20,6 +20,7 @@ zoo = pd.read_csv('zoo.csv')
 
 zoo
 sum(zoo.water_need)
+zoo.water_need.sum()
 
 zoo.count()
 
@@ -34,6 +35,7 @@ zoo.groupby('animal').sum()
 zoo.groupby('animal').sum()[['water_need']]
 zoo.groupby('animal').sum().water_need
 
+zoo.groupby('animal').mean()
 
 df.groupby('source').count()
 

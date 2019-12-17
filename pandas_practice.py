@@ -16,11 +16,10 @@ df.shape
 df.describe()
 
 # Describe one column
-df['genre'].describe()
+df['Genre'].describe()
 
 # Frequency count
-df.genre.value_counts().head(10)
-df.genre.value_counts().head(10)
+df.Genre.value_counts()
 
 ## Duplicates
 df_new = df.drop_duplicates()
@@ -81,7 +80,6 @@ df[['rank']] # extract as data frame
 df[['rank', 'genre']]
 
 # BY ROW
-
 # .loc by name
 df.loc["Prometheus"]
 
