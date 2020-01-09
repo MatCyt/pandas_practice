@@ -1,4 +1,4 @@
-# 101 pandas excercices
+# pandas excercices
 # https://www.machinelearningplus.com/python/101-pandas-exercises-python/
 
 
@@ -174,8 +174,90 @@ df = pd.read_csv('https://raw.githubusercontent.com/selva86/datasets/master/Cars
 
 df.isnull().values.any()
 
+# 41. How to count the number of missing values in each column?
+df.isnull().sum()
+
+# 42. How to replace missing values of multiple numeric columns with the mean?
+df.fillna(df.mean())
+
+# 45. How to change the order of columns of a dataframe?
+df = pd.DataFrame(np.arange(20).reshape(-1, 5), columns=list('abcde'))
+
+df[list('cbade')]
+
+# 46. How to set the number of rows and columns displayed in the output?
+df = pd.read_csv('https://raw.githubusercontent.com/selva86/datasets/master/Cars93_miss.csv')
+
+# Solution
+pd.set_option('display.max_columns', 10)
+pd.set_option('display.max_rows', 10)
+df
+
+# 48. How to format all the values in a dataframe as percentages?
+df = pd.DataFrame(np.random.random(4), columns=['random'])
+df
+
+# Solution
+out = df.style.format({
+    'random': '{0:.2%}'.format,
+})
+
+out
+
+# 57. How to reverse the rows of a dataframe?
+df = pd.DataFrame(np.arange(25).reshape(5, -1))
+
+# Solution 1
+df.iloc[::-1, :]
+
+# 61. How to know the maximum possible correlation value of each column against other columns?
+
+# Input
+df = pd.DataFrame(np.random.randint(1,100, 80).reshape(8, -1), columns=list('pqrstuvwxy'), index=list('abcdefgh'))
+df
+
+# Solution
+abs_corrmat = np.abs(df.corr())
+max_corr = abs_corrmat.apply(lambda x: sorted(x)[-2])
+print('Maximum Correlation possible for each column: ', np.round(max_corr.tolist(), 2))
+
+# 64. How to normalize all columns in a dataframe?
+# Input
+df = pd.DataFrame(np.random.randint(1,100, 80).reshape(8, -1))
+
+# Solution Q1
+out1 = df.apply(lambda x: ((x - x.mean())/x.std()).round(2))
+print('Solution Q1\n',out1)
+
+# 66. How to replace both the diagonals of dataframe with 0?
+# Input
+df = pd.DataFrame(np.random.randint(1,100, 100).reshape(10, -1))
+
+# Solution
+for i in range(df.shape[0]):
+    df.iat[i, i] = 0
+    df.iat[df.shape[0]-i-1, i] = 0
+
+# 71. How to remove rows from a dataframe that are present in another dataframe?
+# Input
+df1 = pd.DataFrame({'fruit': ['apple', 'orange', 'banana'] * 3,
+                    'weight': ['high', 'medium', 'low'] * 3,
+                    'price': np.arange(9)})
+
+df2 = pd.DataFrame({'fruit': ['apple', 'orange', 'pine'] * 2,
+                    'weight': ['high', 'medium'] * 3,
+                    'price': np.arange(6)})
 
 
+# Solution
+print(df1[~df1.isin(df2).all(1)])
 
+# 75. How to split a text column into two separate columns?
+df = pd.DataFrame(["STD, City    State",
+"33, Kolkata    West Bengal",
+"44, Chennai    Tamil Nadu",
+"40, Hyderabad    Telengana",
+"80, Bangalore    Karnataka"], columns=['row'])
 
-# What is the row and column number of the cell with the highest Price value?
+# Solution
+df_out = df.row.str.split(',|\t', expand=True)
